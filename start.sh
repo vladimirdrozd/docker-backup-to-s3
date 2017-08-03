@@ -14,6 +14,6 @@ if [[ "$1" == 'no-cron' ]]; then
 elif [[ "$1" == 'restore' ]]; then
     exec s3cmd sync --verbose "$S3_PATH" "$DATA_PATH"
 else
-    echo "$CRON_SCHEDULE s3cmd sync \"$DATA_PATH\" \"$S3_PATH\"" | crontab -
+    echo "$CRON_SCHEDULE /usr/local/bin/s3cmd sync \"$DATA_PATH\" \"$S3_PATH\"" | crontab -
     exec cron -f
 fi
