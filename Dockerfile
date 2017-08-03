@@ -1,19 +1,22 @@
-FROM debian:jessie
-MAINTAINER Ilya Stepanov <dev@ilyastepanov.com>
+FROM ubuntu:16.04
 
-RUN apt-get update && \
-    apt-get install -y python python-pip cron && \
+#Forked from https://github.com/istepanov/docker-backup-to-s3/
+#Forked to add support for latest s3cmd. apt-get is stuck on 1.1
+
+MAINTAINER Vladimir Drozd <drozd@bluefish.sk>
+
+RUN apt update && \
+    apt install -y cron wget python-setuptools unzip && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install s3cmd
+RUN wget https://github.com/s3tools/s3cmd/archive/master.zip && \
+   unzip master.zip && \
+   cd s3cmd-master/ && \
+   python setup.py install
 
 ADD s3cfg /root/.s3cfg
 
 ADD start.sh /start.sh
 RUN chmod +x /start.sh
 
-ADD sync.sh /sync.sh
-RUN chmod +x /sync.sh
-
-ENTRYPOINT ["/start.sh"]
-CMD [""]
+CMD ["/start.sh"]
