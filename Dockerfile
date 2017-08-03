@@ -5,8 +5,8 @@ FROM ubuntu:16.04
 
 MAINTAINER Vladimir Drozd <drozd@bluefish.sk>
 
-RUN apt update && \
-    apt install -y cron wget python-setuptools unzip && \
+RUN apt-get update && \
+    apt-get install -y cron wget python-setuptools unzip && \
     rm -rf /var/lib/apt/lists/*
 
 RUN wget https://github.com/s3tools/s3cmd/archive/master.zip && \
